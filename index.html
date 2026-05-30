@@ -28,12 +28,8 @@
             color: #ffffff;
             display: -webkit-flex;
             display: flex;
-            -webkit-flex-direction: column;
-            flex-direction: column;
-            -webkit-align-items: center;
-            align-items: center;
-            -webkit-justify-content: center;
-            justify-content: center;
+            -webkit-flex-direction: row;
+            flex-direction: row;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             font-size: 16px;
             line-height: 1.5;
@@ -41,6 +37,55 @@
             -webkit-user-select: none;
             -moz-user-select: none;
             user-select: none;
+        }
+        
+        .main-container {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            -webkit-flex: 1;
+            flex: 1;
+            width: 100%;
+            height: 100vh;
+        }
+        
+        .content {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-flex: 1;
+            flex: 1;
+            padding: 16px;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            -webkit-align-items: stretch;
+            align-items: stretch;
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+            padding: 12px;
+            width: 280px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        body.light-mode .sidebar {
+            background: rgba(26, 31, 54, 0.05);
+            border-left-color: rgba(26, 31, 54, 0.1);
         }
         
         body.light-mode {
@@ -107,6 +152,8 @@
         .slideshow-container {
             position: relative;
             margin-bottom: 24px;
+            -webkit-flex-shrink: 0;
+            flex-shrink: 0;
         }
         
         #slideshow {
@@ -210,6 +257,18 @@
             margin-bottom: 16px;
         }
         
+        .sidebar .controls-row {
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        body.light-mode .sidebar .controls-row {
+            border-bottom-color: rgba(26, 31, 54, 0.1);
+        }
+        
         .btn-control {
             background: rgba(255, 255, 255, 0.12);
             color: #ffffff;
@@ -264,11 +323,29 @@
             padding: 0 12px;
         }
         
+        .sidebar #sizeRangeContainer {
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            padding: 12px 8px;
+            margin-top: 0;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        body.light-mode .sidebar #sizeRangeContainer {
+            border-bottom-color: rgba(26, 31, 54, 0.1);
+        }
+        
         .size-label {
             font-size: 0.95rem;
             font-weight: 500;
             margin-right: 12px;
             white-space: nowrap;
+        }
+        
+        .sidebar .size-label {
+            margin-right: 8px;
+            font-size: 0.9rem;
         }
         
         #sizeRange {
@@ -340,10 +417,23 @@
             margin-top: 8px;
         }
         
+        .sidebar .speed-controls {
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            padding: 12px 8px;
+            margin-top: 0;
+        }
+        
         .speed-label {
             font-size: 0.95rem;
             font-weight: 500;
             margin-right: 4px;
+        }
+        
+        .sidebar .speed-label {
+            font-size: 0.9rem;
+            margin-right: 4px;
+            margin-bottom: 8px;
         }
         
         .speed-btn {
@@ -405,6 +495,70 @@
                 height: 44px;
                 font-size: 1.2rem;
             }
+            
+            .sidebar {
+                width: 100%;
+                border-left: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                max-height: 200px;
+                -webkit-flex-direction: row;
+                flex-direction: row;
+                -webkit-overflow-scrolling: touch;
+                overflow-x: auto;
+            }
+            
+            body.light-mode .sidebar {
+                border-top-color: rgba(26, 31, 54, 0.1);
+            }
+            
+            .sidebar .controls-row,
+            .sidebar #sizeRangeContainer {
+                border-bottom: none;
+                border-right: 1px solid rgba(255, 255, 255, 0.1);
+                padding-right: 16px;
+                margin-right: 16px;
+                -webkit-flex-direction: row;
+                flex-direction: row;
+                white-space: nowrap;
+            }
+            
+            body.light-mode .sidebar .controls-row,
+            body.light-mode .sidebar #sizeRangeContainer {
+                border-right-color: rgba(26, 31, 54, 0.1);
+            }
+            
+            .size-label {
+                margin-right: 8px;
+                margin-bottom: 0;
+            }
+            
+            #sizeRange {
+                width: 100px;
+            }
+            
+            .sidebar #sizeRangeLabel {
+                min-width: 40px;
+            }
+            
+            .sidebar .speed-controls {
+                -webkit-flex-direction: row;
+                flex-direction: row;
+                border-right: none;
+                padding-right: 0;
+                margin-right: 0;
+            }
+            
+            .speed-label {
+                width: auto;
+                text-align: left;
+                margin-right: 8px;
+                margin-bottom: 0;
+            }
+            
+            .speed-btn {
+                padding: 4px 10px;
+                font-size: 0.75rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -438,38 +592,80 @@
                 margin-right: 0;
                 margin-bottom: 4px;
             }
+            
+            .sidebar {
+                max-height: 180px;
+            }
+            
+            .sidebar .controls-row {
+                gap: 4px;
+                padding-right: 12px;
+                margin-right: 12px;
+            }
+            
+            #sizeRange {
+                width: 80px;
+            }
+            
+            .btn-control {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* iPad em landscape (modo paisagem) */
+        @media (max-height: 500px) {
+            #clock {
+                font-size: 1.8rem;
+                margin-bottom: 12px;
+            }
+            
+            .slideshow-container {
+                margin-bottom: 8px;
+            }
+            
+            .sidebar {
+                width: 240px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="themeToggleContainer">
-        <button id="themeToggleBtn" class="theme-btn" title="Alternar tema" aria-label="Alternar tema">🌙</button>
-    </div>
-    
-    <div id="clock">00:00:00</div>
-    
-    <div class="slideshow-container">
-        <div id="slideshow"></div>
-        <div id="statusBadge" class="status-badge"></div>
-    </div>
-    
-    <div class="controls-row">
-        <button id="prevBtn" class="btn-control" title="Slide anterior" aria-label="Anterior">‹</button>
-        <button id="playPauseBtn" class="btn-control" title="Pausar/Reproduzir" aria-label="Pausar/Reproduzir">⏸</button>
-        <button id="nextBtn" class="btn-control" title="Próximo slide" aria-label="Próximo">›</button>
-    </div>
-    
-    <div id="sizeRangeContainer">
-        <label class="size-label" for="sizeRange">Tamanho:</label>
-        <input type="range" id="sizeRange" min="200" max="1200" step="10" value="400" aria-label="Tamanho do slideshow">
-        <span id="sizeRangeLabel">400px</span>
-    </div>
-    
-    <div class="speed-controls">
-        <span class="speed-label">Velocidade:</span>
-        <button class="speed-btn" id="speedSlow">Lento</button>
-        <button class="speed-btn active" id="speedNormal">Normal</button>
-        <button class="speed-btn" id="speedFast">Rápido</button>
+    <div class="main-container">
+        <div class="content">
+            <div id="themeToggleContainer">
+                <button id="themeToggleBtn" class="theme-btn" title="Alternar tema" aria-label="Alternar tema">🌙</button>
+            </div>
+            
+            <div id="clock">00:00:00</div>
+            
+            <div class="slideshow-container">
+                <div id="slideshow"></div>
+                <div id="statusBadge" class="status-badge"></div>
+            </div>
+        </div>
+        
+        <aside class="sidebar">
+            <div class="controls-row">
+                <button id="prevBtn" class="btn-control" title="Slide anterior" aria-label="Anterior">‹</button>
+                <button id="playPauseBtn" class="btn-control" title="Pausar/Reproduzir" aria-label="Pausar/Reproduzir">⏸</button>
+                <button id="nextBtn" class="btn-control" title="Próximo slide" aria-label="Próximo">›</button>
+            </div>
+            
+            <div id="sizeRangeContainer">
+                <label class="size-label" for="sizeRange">Tamanho:</label>
+                <input type="range" id="sizeRange" min="200" max="1200" step="10" value="400" aria-label="Tamanho do slideshow">
+                <span id="sizeRangeLabel">400px</span>
+            </div>
+            
+            <div class="speed-controls">
+                <span class="speed-label">Velocidade:</span>
+                <button class="speed-btn" id="speedSlow">Lento</button>
+                <button class="speed-btn active" id="speedNormal">Normal</button>
+                <button class="speed-btn" id="speedFast">Rápido</button>
+            </div>
+        </aside>
     </div>
     
     <script src="slides-config.js"></script>
@@ -768,6 +964,6 @@
         setTheme(true);
         showSlide(0);
         updatePlayPauseIcon();
-        </script>
+    </script>
 </body>
 </html>
