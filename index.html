@@ -81,10 +81,22 @@
             width: 280px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            position: fixed;
+            right: -300px;
+            top: 0;
+            height: 100vh;
+            z-index: 99;
+            background: rgba(10, 14, 39, 0.98);
+            transition: right 0.3s ease;
+            -webkit-transition: right 0.3s ease;
+        }
+        
+        .sidebar.visible {
+            right: 0;
         }
         
         body.light-mode .sidebar {
-            background: transparent;
+            background: rgba(245, 247, 250, 0.98);
             border-left-color: transparent;
         }
         
@@ -98,6 +110,13 @@
             top: 16px;
             right: 16px;
             z-index: 100;
+            display: -webkit-flex;
+            display: flex;
+            gap: 8px;
+        }
+        
+        #menuToggleBtn {
+            display: none;
         }
         
         .theme-btn {
@@ -496,30 +515,40 @@
                 font-size: 1.2rem;
             }
             
-            .sidebar {
-                width: 100%;
-                border-left: none;
-                border-top: none;
-                max-height: 200px;
-                -webkit-flex-direction: row;
-                flex-direction: row;
-                -webkit-overflow-scrolling: touch;
-                overflow-x: auto;
+            #menuToggleBtn {
+                display: -webkit-flex !important;
+                display: flex !important;
             }
             
-            body.light-mode .sidebar {
-                border-top-color: transparent;
+            .sidebar {
+                position: fixed;
+                right: -300px;
+                top: 0;
+                width: 100%;
+                max-width: 280px;
+                height: 100vh;
+                -webkit-flex-direction: column;
+                flex-direction: column;
+                z-index: 99;
+                padding: 60px 12px 12px 12px;
+                border-bottom: none;
+            }
+            
+            .sidebar.visible {
+                right: 0;
+                -webkit-box-shadow: -2px 0 16px rgba(0, 0, 0, 0.3);
+                box-shadow: -2px 0 16px rgba(0, 0, 0, 0.3);
             }
             
             .sidebar .controls-row,
             .sidebar #sizeRangeContainer {
                 border-bottom: none;
                 border-right: none;
-                padding-right: 16px;
-                margin-right: 16px;
-                -webkit-flex-direction: row;
-                flex-direction: row;
-                white-space: nowrap;
+                padding-right: 0;
+                margin-right: 0;
+                -webkit-flex-direction: column;
+                flex-direction: column;
+                white-space: normal;
             }
             
             body.light-mode .sidebar .controls-row,
@@ -541,8 +570,8 @@
             }
             
             .sidebar .speed-controls {
-                -webkit-flex-direction: row;
-                flex-direction: row;
+                -webkit-flex-direction: column;
+                flex-direction: column;
                 border-right: none;
                 padding-right: 0;
                 margin-right: 0;
@@ -551,8 +580,8 @@
             .speed-label {
                 width: auto;
                 text-align: left;
-                margin-right: 8px;
-                margin-bottom: 0;
+                margin-right: 0;
+                margin-bottom: 8px;
             }
             
             .speed-btn {
@@ -635,6 +664,7 @@
     <div class="main-container">
         <div class="content">
             <div id="themeToggleContainer">
+                <button id="menuToggleBtn" class="theme-btn" title="Abrir menu" aria-label="Menu">☰</button>
                 <button id="themeToggleBtn" class="theme-btn" title="Alternar tema" aria-label="Alternar tema">🌙</button>
             </div>
             
@@ -939,6 +969,9 @@
 
         // Tema claro/escuro
         var themeBtn = document.getElementById('themeToggleBtn');
+        var menuBtn = document.getElementById('menuToggleBtn');
+        var sidebar = document.querySelector('.sidebar');
+        
         function setTheme(dark) {
             state.darkMode = dark;
             if (dark) {
@@ -954,6 +987,25 @@
         themeBtn.onclick = function() {
             setTheme(!state.darkMode);
         };
+        
+        // Controle de menu
+        if (menuBtn) {
+            menuBtn.onclick = function(e) {
+                e.stopPropagation();
+                sidebar.classList.toggle('visible');
+                menuBtn.textContent = sidebar.classList.contains('visible') ? '✕' : '☰';
+            };
+        }
+        
+        // Fechar sidebar ao clicar fora
+        document.addEventListener('click', function(e) {
+            if (sidebar && sidebar.classList.contains('visible')) {
+                if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+                    sidebar.classList.remove('visible');
+                    menuBtn.textContent = '☰';
+                }
+            }
+        });
 
         // Inicialização
         state.slides = createSlideArray();
