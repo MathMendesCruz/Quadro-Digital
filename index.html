@@ -2,387 +2,770 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Quadro Digital</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <style>
-        :root {
-            --bg: #111;
-            --fg: #fff;
-            --card: #222;
-            --shadow: 0 4px 32px #0008;
-            --accent: #000000;
+        * {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        body {
-            background: var(--bg);
-            color: var(--fg);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
-        #themeToggleContainer {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-        }
-        button, #prevBtn, #nextBtn, #playPauseBtn {
-            background: transparent !important;
-            color: var(--fg);
-            border: none;
-            border-radius: 50%;
-            min-width: 56px;
-            min-height: 56px;
-            padding: 0;
-            margin: 0 8px;
-            cursor: pointer;
-            font-size: 2.2rem;
-            font-family: inherit;
-            box-shadow: none;
-            transition: color 0.18s, box-shadow 0.18s, transform 0.12s;
-            outline: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #clock {
-            font-size: 5vw;
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-            font-weight: 300;
-        }
-        #slideshow {
-            background: none;
-            border-radius: 20px;
-            box-shadow: none;
-            padding: 0;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            transition: width 0.4s cubic-bezier(.4,1.4,.6,1), height 0.4s cubic-bezier(.4,1.4,.6,1);
-        }
-        #slideshow img, #slideshow video {
+        
+        html, body {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            background: none;
-            box-shadow: 0 2px 16px #0002;
-            opacity: 1;
-            transition: opacity 0.5s cubic-bezier(.4,1.4,.6,1);
+            margin: 0;
+            padding: 0;
         }
+        
+        body {
+            background: #0a0e27;
+            color: #ffffff;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            flex-direction: column;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            overflow: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+        
+        body.light-mode {
+            background: #f5f7fa;
+            color: #1a1f36;
+        }
+        
+        #themeToggleContainer {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+        }
+        
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-touch-callout: none;
+        }
+        
+        .theme-btn:active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        body.light-mode .theme-btn {
+            background: rgba(26, 31, 54, 0.1);
+            border-color: rgba(26, 31, 54, 0.2);
+            color: #1a1f36;
+        }
+        
+        body.light-mode .theme-btn:active {
+            background: rgba(26, 31, 54, 0.15);
+            border-color: rgba(26, 31, 54, 0.3);
+        }
+        
+        #clock {
+            font-size: 4.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 32px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+        
+        .slideshow-container {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        
+        #slideshow {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: width 0.4s cubic-bezier(0.4, 0.0, 0.2, 1), height 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        body.light-mode #slideshow {
+            background: rgba(26, 31, 54, 0.05);
+            border-color: rgba(26, 31, 54, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        #slideshow img,
+        #slideshow video {
+            width: 100%;
+            height: 100%;
+            -o-object-fit: cover;
+            object-fit: cover;
+            border-radius: 14px;
+            opacity: 1;
+            transition: opacity 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        
         #slideshow .fade-out {
             opacity: 0;
         }
+        
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top: 3px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            -webkit-animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @-webkit-keyframes spin {
+            to { -webkit-transform: rotate(360deg); }
+        }
+        
+        .status-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .status-badge.loaded {
+            background: rgba(76, 175, 80, 0.6);
+        }
+        
+        .status-badge.error {
+            background: rgba(244, 67, 54, 0.6);
+        }
+        
+        .controls-row {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: row;
+            flex-direction: row;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .btn-control {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-touch-callout: none;
+        }
+        
+        .btn-control:active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(0.95);
+            -webkit-transform: scale(0.95);
+        }
+        
+        body.light-mode .btn-control {
+            background: rgba(26, 31, 54, 0.1);
+            border-color: rgba(26, 31, 54, 0.2);
+            color: #1a1f36;
+        }
+        
+        body.light-mode .btn-control:active {
+            background: rgba(26, 31, 54, 0.15);
+            border-color: rgba(26, 31, 54, 0.3);
+        }
+        
         #sizeRangeContainer {
             width: 100%;
+            display: -webkit-flex;
             display: flex;
+            -webkit-justify-content: center;
             justify-content: center;
-            margin-top: 18px;
-        }
-        label {
-            font-size: 1.1rem;
-            color: var(--fg);
-        }
-        select {
-            font-size: 15px;
-            color: var(--fg);
-            box-shadow: none;
-            outline: none;
-            backdrop-filter: blur(2px);
-            margin-left: 8px;
-        }
-        select:focus, select:hover {
-            background: rgba(0,120,212,0.10);
-            color: #fff;
-        }
-        .controls-row {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 0.5em;
-        }
-        #prevBtn, #nextBtn {
-            margin-bottom: 6px;
-        }
-
-        .controls-row > * {
-            display: flex;
-            align-items: flex-end;
-        }
-        #themeToggleBtn {
-            background: var(--card);
-            color: var(--fg);
-            border: none;
-            border-radius: 50%;
-            width: 54px;
-            height: 54px;
-            font-size: 1.7rem;
-            cursor: pointer;
-            box-shadow: none;
-            transition: background 0.3s, color 0.3s, border-color 0.2s;
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(2px);
-        }
-        .speed-controls {
-            display: flex;
-            flex-direction: row;
+            -webkit-align-items: center;
             align-items: center;
-            justify-content: center;
-            gap: 0.5em;
-            margin-top: 10px;
+            margin-top: 16px;
+            margin-bottom: 12px;
+            padding: 0 12px;
         }
-        .speed-btn {
-            background: var(--card);
-            color: var(--fg);
-            border: none;
-            border-radius: 4px;
-            padding: 6px 14px;
-            font-size: 1rem;
+        
+        .size-label {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-right: 12px;
+            white-space: nowrap;
+        }
+        
+        #sizeRange {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 160px;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
             cursor: pointer;
-            transition: background 0.2s, color 0.2s;
+            margin: 0 8px;
         }
+        
+        #sizeRange::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        #sizeRange::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        body.light-mode #sizeRange {
+            background: rgba(26, 31, 54, 0.2);
+        }
+        
+        body.light-mode #sizeRange::-webkit-slider-thumb {
+            background: rgba(26, 31, 54, 0.9);
+            border-color: rgba(26, 31, 54, 0.3);
+        }
+        
+        body.light-mode #sizeRange::-moz-range-thumb {
+            background: rgba(26, 31, 54, 0.9);
+            border-color: rgba(26, 31, 54, 0.3);
+        }
+        
+        #sizeRangeLabel {
+            font-weight: 600;
+            min-width: 45px;
+            text-align: right;
+            font-size: 0.9rem;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .speed-controls {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: row;
+            flex-direction: row;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .speed-label {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-right: 4px;
+        }
+        
+        .speed-btn {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-touch-callout: none;
+        }
+        
+        .speed-btn:active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
         .speed-btn.active {
-            color: var(--accent) !important;
-            border: none !important;
-            box-shadow: none !important;
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
         }
-        .speed-btn:focus, .speed-btn:active, #themeToggleBtn:focus, #themeToggleBtn:active {
-            outline: none !important;
-            box-shadow: none !important;
+        
+        body.light-mode .speed-btn {
+            background: rgba(26, 31, 54, 0.1);
+            border-color: rgba(26, 31, 54, 0.2);
+            color: #1a1f36;
         }
-        @media (max-width: 700px) {
-            #slideshow {
-                width: 95vw;
-                height: 50vw;
-                max-width: 98vw;
-                max-height: 60vw;
-            }
+        
+        body.light-mode .speed-btn:active {
+            background: rgba(26, 31, 54, 0.15);
+            border-color: rgba(26, 31, 54, 0.3);
+        }
+        
+        body.light-mode .speed-btn.active {
+            background: rgba(26, 31, 54, 0.2);
+            border-color: rgba(26, 31, 54, 0.4);
+            box-shadow: 0 0 12px rgba(26, 31, 54, 0.1);
+        }
+        
+        @media (max-width: 768px) {
             #clock {
-                font-size: 11vw;
+                font-size: 3rem;
+                margin-bottom: 24px;
+            }
+            
+            #sizeRangeContainer {
+                margin-top: 12px;
+            }
+            
+            .btn-control,
+            .theme-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #clock {
+                font-size: 2.2rem;
+                margin-bottom: 16px;
+            }
+            
+            #sizeRange {
+                width: 120px;
+            }
+            
+            .speed-controls {
+                flex-wrap: wrap;
+            }
+            
+            .btn-control,
+            .theme-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .size-label {
+                font-size: 0.85rem;
+            }
+            
+            .speed-label {
+                width: 100%;
+                text-align: center;
+                margin-right: 0;
+                margin-bottom: 4px;
             }
         }
     </style>
 </head>
 <body>
-        <div id="themeToggleContainer">
-            <button id="themeToggleBtn" title="Alternar tema"><span>🌙</span></button>
-        </div>
-        <div id="clock">00:00:00</div>
+    <div id="themeToggleContainer">
+        <button id="themeToggleBtn" class="theme-btn" title="Alternar tema" aria-label="Alternar tema">🌙</button>
+    </div>
+    
+    <div id="clock">00:00:00</div>
+    
+    <div class="slideshow-container">
         <div id="slideshow"></div>
-        <div class="controls-row">
-            <button id="prevBtn" title="Anterior" aria-label="Anterior">⟨</button>
-            <button id="playPauseBtn" title="Pausar/Reproduzir" aria-label="Pausar/Reproduzir">⏸</button>
-            <button id="nextBtn" title="Próximo" aria-label="Próximo">⟩</button>
-        </div>
-        <div id="sizeRangeContainer">
-            <label for="sizeRange" style="font-size:1.1rem; color:var(--fg);">Tamanho do quadro:
-                <input type="range" id="sizeRange" min="200" max="1200" step="10" value="300" style="width:220px; vertical-align:middle; margin-left:12px;">
-                <span id="sizeRangeLabel" style="margin-left:10px; font-weight:500;">300px</span>
-            </label>
-        </div>
-        <div class="speed-controls">
-            <span style="font-size:1.05rem;">Velocidade:</span>
-            <button class="speed-btn" id="speedSlow">Lento</button>
-            <button class="speed-btn active" id="speedNormal">Normal</button>
-            <button class="speed-btn" id="speedFast">Rápido</button>
-        </div>
-        <script>
-        // Relógio Digital
-        function updateClock() {
-            const now = new Date();
-            const h = String(now.getHours()).padStart(2, '0');
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+        <div id="statusBadge" class="status-badge"></div>
+    </div>
+    
+    <div class="controls-row">
+        <button id="prevBtn" class="btn-control" title="Slide anterior" aria-label="Anterior">‹</button>
+        <button id="playPauseBtn" class="btn-control" title="Pausar/Reproduzir" aria-label="Pausar/Reproduzir">⏸</button>
+        <button id="nextBtn" class="btn-control" title="Próximo slide" aria-label="Próximo">›</button>
+    </div>
+    
+    <div id="sizeRangeContainer">
+        <label class="size-label" for="sizeRange">Tamanho:</label>
+        <input type="range" id="sizeRange" min="200" max="1200" step="10" value="400" aria-label="Tamanho do slideshow">
+        <span id="sizeRangeLabel">400px</span>
+    </div>
+    
+    <div class="speed-controls">
+        <span class="speed-label">Velocidade:</span>
+        <button class="speed-btn" id="speedSlow">Lento</button>
+        <button class="speed-btn active" id="speedNormal">Normal</button>
+        <button class="speed-btn" id="speedFast">Rápido</button>
+    </div>
+    
+    <script src="slides-config.js"></script>
+    <script>
+        // Compatibilidade com navegadores antigos
+        if (!String.prototype.padStart) {
+            String.prototype.padStart = function(targetLength, padString) {
+                targetLength = Math.floor(targetLength);
+                padString = String(padString || ' ');
+                if (padString.length === 0) return String(this);
+                var padLength = targetLength - this.length;
+                if (padLength <= 0) return String(this);
+                var pad = '';
+                while (pad.length < padLength) {
+                    pad += padString;
+                }
+                return pad.slice(0, padLength) + String(this);
+            };
         }
-        setInterval(updateClock, 1000);
-        updateClock();
 
-        // Slides automáticos: foto1.jpg até foto190.jpg e video1.mp4 até video13.mp4
-        let slides = [
-            ...Array.from({length: 190}, (_, i) => ({ type: 'image', src: `IMAGENS PARA O SITE/foto${i+1}.jpg` })),
-            ...Array.from({length: 13}, (_, i) => ({ type: 'video', src: `IMAGENS PARA O SITE/video${i+1}.mp4` })),
-        ];
-        // Embaralha a ordem dos slides
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-        shuffleArray(slides);
-
-        // Estado do slideshow
-        let current = 0;
-        let intervalId = null;
-        let isPaused = false;
-        let sizePx = 300;
-        let slideInterval = 8000;
-
-        // Mapeamento dos botões de velocidade
-        const speedBtns = {
-            slow: { el: null, ms: 12000 },
-            normal: { el: null, ms: 8000 },
-            fast: { el: null, ms: 3500 }
+        // Estado global
+        var state = {
+            slides: [],
+            current: 0,
+            intervalId: null,
+            isPaused: false,
+            sizePx: 400,
+            slideInterval: 8000,
+            darkMode: true,
+            loadedImages: {},
+            totalImages: 0,
+            loadedCount: 0
         };
 
-        // Aplica tamanho ao slide e container
-        function applySize(element) {
-            element.style.width = sizePx + 'px';
-            element.style.height = Math.round(sizePx * 0.66) + 'px';
-            const slideshow = document.getElementById('slideshow');
-            slideshow.style.width = sizePx + 'px';
-            slideshow.style.height = Math.round(sizePx * 0.66) + 'px';
+        // Criar array de slides - ES5 compatível
+        function createSlideArray() {
+            var slides = [];
+            var i;
+            
+            // Adiciona imagens do SLIDES_CONFIG
+            if (typeof SLIDES_CONFIG !== 'undefined') {
+                for (i = 0; i < SLIDES_CONFIG.length; i++) {
+                    var img = SLIDES_CONFIG[i];
+                    slides.push({
+                        type: 'image',
+                        src: 'IMAGENS PARA O SITE/' + img.id + '.' + img.ext,
+                        id: img.id
+                    });
+                }
+            }
+            
+            // Adiciona vídeos do VIDEOS_CONFIG
+            if (typeof VIDEOS_CONFIG !== 'undefined') {
+                for (i = 0; i < VIDEOS_CONFIG.length; i++) {
+                    var vid = VIDEOS_CONFIG[i];
+                    slides.push({
+                        type: 'video',
+                        src: 'IMAGENS PARA O SITE/' + vid.id + '.' + vid.ext,
+                        id: vid.id
+                    });
+                }
+            }
+            
+            state.totalImages = (typeof SLIDES_CONFIG !== 'undefined') ? SLIDES_CONFIG.length : 0;
+            return slides;
         }
 
-        // Troca de slide com fade
+        // Embaralha array
+        function shuffleArray(array) {
+            var i, j, temp;
+            for (i = array.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array;
+        }
+
+        // Relógio Digital
+        function updateClock() {
+            var now = new Date();
+            var h = String(now.getHours()).padStart(2, '0');
+            var m = String(now.getMinutes()).padStart(2, '0');
+            var s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = h + ':' + m + ':' + s;
+        }
+
+        // Aplica tamanho ao slide
+        function applySize(element) {
+            var width = state.sizePx;
+            var height = Math.round(state.sizePx * 0.66);
+            element.style.width = width + 'px';
+            element.style.height = height + 'px';
+            var slideshow = document.getElementById('slideshow');
+            slideshow.style.width = width + 'px';
+            slideshow.style.height = height + 'px';
+        }
+
+        // Atualiza badge de status
+        function updateStatusBadge() {
+            var badge = document.getElementById('statusBadge');
+            var current = state.slides[state.current];
+            if (!current) return;
+            
+            if (current.type === 'video') {
+                badge.textContent = '▶ Vídeo';
+                badge.className = 'status-badge loaded';
+            } else {
+                var isLoaded = state.loadedImages[current.id];
+                if (isLoaded === true) {
+                    badge.textContent = '✓ Carregada (' + state.loadedCount + '/' + state.totalImages + ')';
+                    badge.className = 'status-badge loaded';
+                } else if (isLoaded === false) {
+                    badge.textContent = '✗ Erro ao carregar';
+                    badge.className = 'status-badge error';
+                } else {
+                    badge.textContent = '⟳ Carregando...';
+                    badge.className = 'status-badge';
+                }
+            }
+        }
+
+        // Renderiza slide
+        function renderSlide(slide, slideshow) {
+            slideshow.innerHTML = '';
+            clearInterval(state.intervalId);
+            state.intervalId = null;
+            
+            if (slide.type === 'image') {
+                var img = document.createElement('img');
+                img.src = slide.src;
+                img.alt = slide.id;
+                img.className = 'fade-out';
+                
+                applySize(img);
+                
+                // Evento de carregamento
+                img.onload = function() {
+                    state.loadedImages[slide.id] = true;
+                    state.loadedCount++;
+                    updateStatusBadge();
+                };
+                
+                // Evento de erro
+                img.onerror = function() {
+                    state.loadedImages[slide.id] = false;
+                    img.style.opacity = '0.2';
+                    updateStatusBadge();
+                };
+                
+                slideshow.appendChild(img);
+                
+                // Fade in
+                setTimeout(function() {
+                    if (img.parentNode) {
+                        img.classList.remove('fade-out');
+                    }
+                }, 30);
+                
+                updateStatusBadge();
+                
+                if (!state.isPaused) {
+                    state.intervalId = setInterval(function() {
+                        showSlide(state.current + 1);
+                    }, state.slideInterval);
+                }
+            } else if (slide.type === 'video') {
+                var video = document.createElement('video');
+                video.src = slide.src;
+                video.controls = true;
+                video.autoplay = true;
+                video.muted = true;
+                
+                // iOS compatibility
+                if (video.hasAttribute) {
+                    video.setAttribute('playsinline', '');
+                    video.setAttribute('webkit-playsinline', '');
+                }
+                
+                video.className = 'fade-out';
+                applySize(video);
+                
+                video.onerror = function() {
+                    video.style.opacity = '0.2';
+                };
+                
+                slideshow.appendChild(video);
+                
+                setTimeout(function() {
+                    if (video.parentNode) {
+                        video.classList.remove('fade-out');
+                    }
+                }, 30);
+                
+                updateStatusBadge();
+                
+                if (!state.isPaused) {
+                    video.onended = function() {
+                        showSlide(state.current + 1);
+                    };
+                }
+            }
+        }
+
+        // Mostra slide
         function showSlide(index) {
-            current = (index + slides.length) % slides.length;
-            const slide = slides[current];
-            const slideshow = document.getElementById('slideshow');
-            // Fade out
+            state.current = (index + state.slides.length) % state.slides.length;
+            var slide = state.slides[state.current];
+            var slideshow = document.getElementById('slideshow');
+            
             if (slideshow.firstChild) {
                 slideshow.firstChild.classList.add('fade-out');
-                setTimeout(() => renderSlide(slide, slideshow), 350);
+                setTimeout(function() {
+                    renderSlide(slide, slideshow);
+                }, 350);
             } else {
                 renderSlide(slide, slideshow);
             }
         }
 
-        function renderSlide(slide, slideshow) {
-            slideshow.innerHTML = '';
-            clearInterval(intervalId);
-            intervalId = null;
-            if (slide.type === 'image') {
-                const img = document.createElement('img');
-                img.src = slide.src;
-                img.alt = 'Slideshow';
-                img.className = 'fade-out';
-                applySize(img);
-                // Mostra o nome do arquivo ao passar o mouse
-                img.title = slide.src.split('/').pop();
-                img.addEventListener('error', function() {
-                    img.style.opacity = 0.3;
-                    img.title = 'Erro ao carregar: ' + slide.src.split('/').pop();
-                });
-                slideshow.appendChild(img);
-                setTimeout(() => img.classList.remove('fade-out'), 30);
-                if (!isPaused) {
-                    intervalId = setInterval(() => showSlide(current + 1), slideInterval);
-                }
-            } else if (slide.type === 'video') {
-                const video = document.createElement('video');
-                video.src = slide.src;
-                video.controls = true;
-                video.autoplay = true;
-                video.muted = true;
-                video.playsInline = true;
-                video.className = 'fade-out';
-                applySize(video);
-                // Mostra o nome do arquivo ao passar o mouse
-                video.title = slide.src.split('/').pop();
-                video.addEventListener('error', function() {
-                    video.style.opacity = 0.3;
-                    video.title = 'Erro ao carregar: ' + slide.src.split('/').pop();
-                });
-                slideshow.appendChild(video);
-                setTimeout(() => video.classList.remove('fade-out'), 30);
-                if (!isPaused) {
-                    video.onended = () => showSlide(current + 1);
-                }
+        // Controles
+        document.getElementById('nextBtn').onclick = function() {
+            showSlide(state.current + 1);
+        };
+        document.getElementById('prevBtn').onclick = function() {
+            showSlide(state.current - 1);
+        };
+        document.getElementById('playPauseBtn').onclick = function() {
+            state.isPaused = !state.isPaused;
+            updatePlayPauseIcon();
+            showSlide(state.current);
+        };
+
+        // Atualiza ícone de play/pausa
+        function updatePlayPauseIcon() {
+            var btn = document.getElementById('playPauseBtn');
+            if (state.isPaused) {
+                btn.textContent = '▶';
+            } else {
+                btn.textContent = '⏸';
             }
         }
 
-        // Controles
-        document.getElementById('nextBtn').onclick = () => showSlide(current + 1);
-        document.getElementById('prevBtn').onclick = () => showSlide(current - 1);
-        document.getElementById('playPauseBtn').onclick = () => {
-            isPaused = !isPaused;
-            updatePlayPauseIcon();
-            showSlide(current);
-        };
-        function updatePlayPauseIcon() {
-            const btn = document.getElementById('playPauseBtn');
-            btn.innerHTML = isPaused ?
-                '<svg width="32" height="32" viewBox="0 0 32 32"><polygon points="12,9 24,16 12,23" fill="currentColor"/></svg>' :
-                '<svg width="32" height="32" viewBox="0 0 32 32"><rect x="10" y="9" width="4" height="14" rx="2" fill="currentColor"/><rect x="18" y="9" width="4" height="14" rx="2" fill="currentColor"/></svg>';
-            // Garante cor correta
-            btn.style.color = getComputedStyle(document.documentElement).getPropertyValue('--fg');
-        }
-
         // Range de tamanho
-        const sizeRange = document.getElementById('sizeRange');
-        const sizeRangeLabel = document.getElementById('sizeRangeLabel');
-        sizeRange.addEventListener('input', function() {
-            sizePx = parseInt(this.value);
-            sizeRangeLabel.textContent = sizePx + 'px';
-            showSlide(current);
-        });
-        sizeRangeLabel.textContent = sizePx + 'px';
+        var sizeRange = document.getElementById('sizeRange');
+        var sizeRangeLabel = document.getElementById('sizeRangeLabel');
+        sizeRange.oninput = function() {
+            state.sizePx = parseInt(this.value, 10);
+            sizeRangeLabel.textContent = state.sizePx + 'px';
+            showSlide(state.current);
+        };
 
         // Botões de velocidade
-        speedBtns.slow.el = document.getElementById('speedSlow');
-        speedBtns.normal.el = document.getElementById('speedNormal');
-        speedBtns.fast.el = document.getElementById('speedFast');
-        Object.values(speedBtns).forEach(btn => {
-            btn.el.onclick = () => {
-                slideInterval = btn.ms;
-                Object.values(speedBtns).forEach(b => b.el.classList.remove('active'));
-                btn.el.classList.add('active');
-                showSlide(current);
+        var speedBtns = {
+            slow: { el: document.getElementById('speedSlow'), ms: 12000 },
+            normal: { el: document.getElementById('speedNormal'), ms: 8000 },
+            fast: { el: document.getElementById('speedFast'), ms: 3500 }
+        };
+
+        Object.keys(speedBtns).forEach(function(key) {
+            speedBtns[key].el.onclick = function() {
+                state.slideInterval = speedBtns[key].ms;
+                Object.keys(speedBtns).forEach(function(k) {
+                    speedBtns[k].el.classList.remove('active');
+                });
+                speedBtns[key].el.classList.add('active');
+                showSlide(state.current);
             };
         });
 
         // Tema claro/escuro
-        const themeBtn = document.getElementById('themeToggleBtn');
-        let darkMode = true;
+        var themeBtn = document.getElementById('themeToggleBtn');
         function setTheme(dark) {
-            darkMode = dark;
+            state.darkMode = dark;
             if (dark) {
-                document.documentElement.style.setProperty('--bg', '#111');
-                document.documentElement.style.setProperty('--fg', '#fff');
-                document.documentElement.style.setProperty('--card', '#222');
-                document.documentElement.style.setProperty('--accent', '#0078d4');
-                themeBtn.querySelector('span').textContent = '🌙';
-                themeBtn.title = 'Tema escuro';
+                document.body.classList.remove('light-mode');
+                themeBtn.textContent = '🌙';
+                themeBtn.title = 'Alternar para modo claro';
             } else {
-                document.documentElement.style.setProperty('--bg', '#f6f6f6');
-                document.documentElement.style.setProperty('--fg', '#222');
-                document.documentElement.style.setProperty('--card', '#fff');
-                document.documentElement.style.setProperty('--accent', '#0078d4');
-                themeBtn.querySelector('span').textContent = '☀️';
-                themeBtn.title = 'Tema claro';
+                document.body.classList.add('light-mode');
+                themeBtn.textContent = '☀️';
+                themeBtn.title = 'Alternar para modo escuro';
             }
-            // Remove estilos inline e reaplica classe active
-            document.querySelectorAll('.speed-btn').forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.background = '';
-                btn.style.color = '';
-            });
-            if(slideInterval === 12000) document.getElementById('speedSlow').classList.add('active');
-            else if(slideInterval === 8000) document.getElementById('speedNormal').classList.add('active');
-            else if(slideInterval === 3500) document.getElementById('speedFast').classList.add('active');
-            updatePlayPauseIcon();
         }
-        themeBtn.onclick = () => setTheme(!darkMode);
-        setTheme(true);
+        themeBtn.onclick = function() {
+            setTheme(!state.darkMode);
+        };
 
         // Inicialização
+        state.slides = createSlideArray();
+        state.slides = shuffleArray(state.slides);
+        
+        setInterval(updateClock, 1000);
+        updateClock();
+        setTheme(true);
         showSlide(0);
         updatePlayPauseIcon();
         </script>
