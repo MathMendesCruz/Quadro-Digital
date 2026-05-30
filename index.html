@@ -67,8 +67,8 @@
         }
         
         .sidebar {
-            background: transparent;
-            border-left: none;
+            background: #1a1e3f;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
             display: -webkit-flex;
             display: flex;
             -webkit-flex-direction: column;
@@ -81,11 +81,22 @@
             width: 280px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            position: fixed;
+            right: -300px;
+            top: 0;
+            height: 100vh;
+            z-index: 200;
+            transition: right 0.3s ease;
+            -webkit-transition: right 0.3s ease;
+        }
+        
+        .sidebar.visible {
+            right: 0;
         }
         
         body.light-mode .sidebar {
-            background: transparent;
-            border-left-color: transparent;
+            background: #f5f7fa;
+            border-left-color: rgba(26, 31, 54, 0.1);
         }
         
         body.light-mode {
@@ -98,6 +109,20 @@
             top: 16px;
             right: 16px;
             z-index: 100;
+            display: -webkit-flex;
+            display: flex;
+            gap: 8px;
+        }
+        
+        #menuToggleBtn {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            #menuToggleBtn {
+                display: -webkit-flex;
+                display: flex;
+            }
         }
         
         .theme-btn {
@@ -496,6 +521,11 @@
                 font-size: 1.2rem;
             }
             
+            #menuToggleBtn {
+                display: -webkit-flex;
+                display: flex;
+            }
+            
             .sidebar {
                 width: 100%;
                 border-left: none;
@@ -505,10 +535,23 @@
                 flex-direction: row;
                 -webkit-overflow-scrolling: touch;
                 overflow-x: auto;
+                position: fixed;
+                right: -100%;
+                top: auto;
+                bottom: 0;
+                height: auto;
+                max-height: 100vh;
+                width: 100%;
+                z-index: 200;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .sidebar.visible {
+                right: 0;
             }
             
             body.light-mode .sidebar {
-                border-top-color: transparent;
+                border-top-color: rgba(26, 31, 54, 0.1);
             }
             
             .sidebar .controls-row,
@@ -636,6 +679,7 @@
         <div class="content">
             <div id="themeToggleContainer">
                 <button id="themeToggleBtn" class="theme-btn" title="Alternar tema" aria-label="Alternar tema">🌙</button>
+                <button id="menuToggleBtn" class="theme-btn" title="Menu" aria-label="Menu"></button>
             </div>
             
             <div id="clock">00:00:00</div>
@@ -954,6 +998,27 @@
         themeBtn.onclick = function() {
             setTheme(!state.darkMode);
         };
+
+        // Toggle da Sidebar
+        var menuBtn = document.getElementById('menuToggleBtn');
+        var sidebar = document.querySelector('.sidebar');
+        
+        menuBtn.textContent = '☰';
+
+        menuBtn.onclick = function(e) {
+            e.stopPropagation();
+            sidebar.classList.toggle('visible');
+            menuBtn.textContent = sidebar.classList.contains('visible') ? '✕' : '☰';
+        };
+
+        document.addEventListener('click', function(e) {
+            if (sidebar && sidebar.classList.contains('visible')) {
+                if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+                    sidebar.classList.remove('visible');
+                    menuBtn.textContent = '☰';
+                }
+            }
+        });
 
         // Inicialização
         state.slides = createSlideArray();
