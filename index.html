@@ -67,8 +67,8 @@
         }
         
         .sidebar {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            border-left: none;
             display: -webkit-flex;
             display: flex;
             -webkit-flex-direction: column;
@@ -84,8 +84,8 @@
         }
         
         body.light-mode .sidebar {
-            background: rgba(26, 31, 54, 0.05);
-            border-left-color: rgba(26, 31, 54, 0.1);
+            background: transparent;
+            border-left-color: transparent;
         }
         
         body.light-mode {
@@ -103,7 +103,7 @@
         .theme-btn {
             background: rgba(255, 255, 255, 0.12);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: none;
             border-radius: 50%;
             width: 48px;
             height: 48px;
@@ -125,18 +125,18 @@
         
         .theme-btn:active {
             background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: transparent;
         }
         
         body.light-mode .theme-btn {
             background: rgba(26, 31, 54, 0.1);
-            border-color: rgba(26, 31, 54, 0.2);
+            border-color: transparent;
             color: #1a1f36;
         }
         
         body.light-mode .theme-btn:active {
             background: rgba(26, 31, 54, 0.15);
-            border-color: rgba(26, 31, 54, 0.3);
+            border-color: transparent;
         }
         
         #clock {
@@ -157,9 +157,9 @@
         }
         
         #slideshow {
-            background: rgba(255, 255, 255, 0.05);
+            background: transparent;
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: none;
             padding: 0;
             display: -webkit-flex;
             display: flex;
@@ -174,8 +174,8 @@
         }
         
         body.light-mode #slideshow {
-            background: rgba(26, 31, 54, 0.05);
-            border-color: rgba(26, 31, 54, 0.1);
+            background: transparent;
+            border-color: transparent;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
@@ -261,18 +261,18 @@
             -webkit-flex-direction: column;
             flex-direction: column;
             margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0;
+            border-bottom: none;
         }
         
         body.light-mode .sidebar .controls-row {
-            border-bottom-color: rgba(26, 31, 54, 0.1);
+            border-bottom-color: transparent;
         }
         
         .btn-control {
             background: rgba(255, 255, 255, 0.12);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: none;
             border-radius: 50%;
             width: 48px;
             height: 48px;
@@ -294,20 +294,20 @@
         
         .btn-control:active {
             background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: transparent;
             transform: scale(0.95);
             -webkit-transform: scale(0.95);
         }
         
         body.light-mode .btn-control {
             background: rgba(26, 31, 54, 0.1);
-            border-color: rgba(26, 31, 54, 0.2);
+            border-color: transparent;
             color: #1a1f36;
         }
         
         body.light-mode .btn-control:active {
             background: rgba(26, 31, 54, 0.15);
-            border-color: rgba(26, 31, 54, 0.3);
+            border-color: transparent;
         }
         
         #sizeRangeContainer {
@@ -329,11 +329,11 @@
             padding: 12px 8px;
             margin-top: 0;
             margin-bottom: 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: none;
         }
         
         body.light-mode .sidebar #sizeRangeContainer {
-            border-bottom-color: rgba(26, 31, 54, 0.1);
+            border-bottom-color: transparent;
         }
         
         .size-label {
@@ -367,7 +367,7 @@
             height: 18px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.9);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: none;
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -377,7 +377,7 @@
             height: 18px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.9);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: none;
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -388,12 +388,12 @@
         
         body.light-mode #sizeRange::-webkit-slider-thumb {
             background: rgba(26, 31, 54, 0.9);
-            border-color: rgba(26, 31, 54, 0.3);
+            border: none;
         }
         
         body.light-mode #sizeRange::-moz-range-thumb {
             background: rgba(26, 31, 54, 0.9);
-            border-color: rgba(26, 31, 54, 0.3);
+            border: none;
         }
         
         #sizeRangeLabel {
@@ -439,7 +439,7 @@
         .speed-btn {
             background: rgba(255, 255, 255, 0.12);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: none;
             border-radius: 20px;
             padding: 6px 14px;
             font-size: 0.85rem;
@@ -453,29 +453,29 @@
         
         .speed-btn:active {
             background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: transparent;
         }
         
         .speed-btn.active {
             background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.4);
+            border-color: transparent;
             box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
         }
         
         body.light-mode .speed-btn {
             background: rgba(26, 31, 54, 0.1);
-            border-color: rgba(26, 31, 54, 0.2);
+            border-color: transparent;
             color: #1a1f36;
         }
         
         body.light-mode .speed-btn:active {
             background: rgba(26, 31, 54, 0.15);
-            border-color: rgba(26, 31, 54, 0.3);
+            border-color: transparent;
         }
         
         body.light-mode .speed-btn.active {
             background: rgba(26, 31, 54, 0.2);
-            border-color: rgba(26, 31, 54, 0.4);
+            border-color: transparent;
             box-shadow: 0 0 12px rgba(26, 31, 54, 0.1);
         }
         
@@ -499,7 +499,7 @@
             .sidebar {
                 width: 100%;
                 border-left: none;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                border-top: none;
                 max-height: 200px;
                 -webkit-flex-direction: row;
                 flex-direction: row;
@@ -508,13 +508,13 @@
             }
             
             body.light-mode .sidebar {
-                border-top-color: rgba(26, 31, 54, 0.1);
+                border-top-color: transparent;
             }
             
             .sidebar .controls-row,
             .sidebar #sizeRangeContainer {
                 border-bottom: none;
-                border-right: 1px solid rgba(255, 255, 255, 0.1);
+                border-right: none;
                 padding-right: 16px;
                 margin-right: 16px;
                 -webkit-flex-direction: row;
@@ -524,7 +524,7 @@
             
             body.light-mode .sidebar .controls-row,
             body.light-mode .sidebar #sizeRangeContainer {
-                border-right-color: rgba(26, 31, 54, 0.1);
+                border-right-color: transparent;
             }
             
             .size-label {
