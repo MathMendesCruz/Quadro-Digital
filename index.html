@@ -126,15 +126,15 @@
         }
         
         .theme-btn {
-            background: rgba(255, 255, 255, 0.12);
+            background: transparent;
             color: #ffffff;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             width: 48px;
             height: 48px;
             font-size: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             display: -webkit-flex;
             display: flex;
             -webkit-align-items: center;
@@ -148,20 +148,30 @@
             -webkit-touch-callout: none;
         }
         
+        .theme-btn:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
         .theme-btn:active {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: transparent;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
         }
         
         body.light-mode .theme-btn {
-            background: rgba(26, 31, 54, 0.1);
-            border-color: transparent;
+            background: transparent;
+            border-color: rgba(26, 31, 54, 0.3);
             color: #1a1f36;
+        }
+        
+        body.light-mode .theme-btn:hover {
+            border-color: rgba(26, 31, 54, 0.6);
+            background: rgba(26, 31, 54, 0.08);
         }
         
         body.light-mode .theme-btn:active {
             background: rgba(26, 31, 54, 0.15);
-            border-color: transparent;
+            border-color: rgba(26, 31, 54, 0.8);
         }
         
         #clock {
@@ -172,6 +182,100 @@
             text-align: center;
             font-variant-numeric: tabular-nums;
             font-family: 'Monaco', 'Courier New', monospace;
+            transition: font-family 0.3s ease;
+        }
+        
+        #clock.font-digital {
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+        
+        #clock.font-modern {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+        
+        #clock.font-classic {
+            font-family: Georgia, 'Times New Roman', serif;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+        
+        #clock.font-geometric {
+            font-family: 'Trebuchet MS', 'Lucida Grande', sans-serif;
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+        
+        .font-selector {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 100;
+            display: -webkit-flex;
+            display: flex;
+            gap: 4px;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+            max-width: 200px;
+        }
+        
+        .font-btn {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-touch-callout: none;
+        }
+        
+        .font-btn:hover,
+        .font-btn:active {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .font-btn.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        body.light-mode .font-btn {
+            color: #1a1f36;
+            border-color: rgba(26, 31, 54, 0.3);
+        }
+        
+        body.light-mode .font-btn:hover,
+        body.light-mode .font-btn:active {
+            border-color: rgba(26, 31, 54, 0.6);
+            background: rgba(26, 31, 54, 0.08);
+        }
+        
+        body.light-mode .font-btn.active {
+            background: rgba(26, 31, 54, 0.15);
+            border-color: rgba(26, 31, 54, 0.8);
+        }
+        
+        @media (max-width: 480px) {
+            .font-selector {
+                top: 12px;
+                left: 12px;
+                gap: 2px;
+                max-width: 180px;
+            }
+            
+            .font-btn {
+                padding: 3px 6px;
+                font-size: 0.65rem;
+            }
         }
         
         .slideshow-container {
@@ -295,9 +399,9 @@
         }
         
         .btn-control {
-            background: rgba(255, 255, 255, 0.12);
+            background: transparent;
             color: #ffffff;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             width: 48px;
             height: 48px;
@@ -317,22 +421,32 @@
             -webkit-touch-callout: none;
         }
         
+        .btn-control:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
         .btn-control:active {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: transparent;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
             transform: scale(0.95);
             -webkit-transform: scale(0.95);
         }
         
         body.light-mode .btn-control {
-            background: rgba(26, 31, 54, 0.1);
-            border-color: transparent;
+            background: transparent;
+            border-color: rgba(26, 31, 54, 0.3);
             color: #1a1f36;
+        }
+        
+        body.light-mode .btn-control:hover {
+            border-color: rgba(26, 31, 54, 0.6);
+            background: rgba(26, 31, 54, 0.08);
         }
         
         body.light-mode .btn-control:active {
             background: rgba(26, 31, 54, 0.15);
-            border-color: transparent;
+            border-color: rgba(26, 31, 54, 0.8);
         }
         
         #sizeRangeContainer {
@@ -462,9 +576,9 @@
         }
         
         .speed-btn {
-            background: rgba(255, 255, 255, 0.12);
+            background: transparent;
             color: #ffffff;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 20px;
             padding: 6px 14px;
             font-size: 0.85rem;
@@ -476,32 +590,42 @@
             -webkit-touch-callout: none;
         }
         
+        .speed-btn:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
         .speed-btn:active {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: transparent;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
         }
         
         .speed-btn.active {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: transparent;
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
         }
         
         body.light-mode .speed-btn {
-            background: rgba(26, 31, 54, 0.1);
-            border-color: transparent;
+            background: transparent;
+            border-color: rgba(26, 31, 54, 0.3);
             color: #1a1f36;
+        }
+        
+        body.light-mode .speed-btn:hover {
+            border-color: rgba(26, 31, 54, 0.6);
+            background: rgba(26, 31, 54, 0.08);
         }
         
         body.light-mode .speed-btn:active {
             background: rgba(26, 31, 54, 0.15);
-            border-color: transparent;
+            border-color: rgba(26, 31, 54, 0.8);
         }
         
         body.light-mode .speed-btn.active {
-            background: rgba(26, 31, 54, 0.2);
-            border-color: transparent;
-            box-shadow: 0 0 12px rgba(26, 31, 54, 0.1);
+            background: rgba(26, 31, 54, 0.15);
+            border-color: rgba(26, 31, 54, 0.8);
+            box-shadow: 0 0 8px rgba(26, 31, 54, 0.15);
         }
         
         @media (max-width: 768px) {
@@ -677,6 +801,14 @@
 <body>
     <div class="main-container">
         <div class="content">
+            <div class="font-selector">
+                <button class="font-btn active" data-font="monospace" title="Monospace">Mono</button>
+                <button class="font-btn" data-font="digital" title="Digital">Digital</button>
+                <button class="font-btn" data-font="modern" title="Modern">Modern</button>
+                <button class="font-btn" data-font="classic" title="Classic">Classic</button>
+                <button class="font-btn" data-font="geometric" title="Geometric">Geo</button>
+            </div>
+            
             <div id="themeToggleContainer">
                 <button id="themeToggleBtn" class="theme-btn" title="Alternar tema" aria-label="Alternar tema">🌙</button>
                 <button id="menuToggleBtn" class="theme-btn" title="Menu" aria-label="Menu"></button>
@@ -1019,6 +1151,42 @@
                 }
             }
         });
+
+        // Seletor de Fontes
+        var fontBtns = document.querySelectorAll('.font-btn');
+        var clock = document.getElementById('clock');
+        
+        fontBtns.forEach(function(btn) {
+            btn.onclick = function() {
+                fontBtns.forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                btn.classList.add('active');
+                
+                var fontClass = 'font-' + btn.getAttribute('data-font');
+                clock.className = fontClass;
+                
+                // Armazena preferência no localStorage (se disponível)
+                try {
+                    localStorage.setItem('clockFont', btn.getAttribute('data-font'));
+                } catch (e) {
+                    // localStorage não disponível
+                }
+            };
+        });
+        
+        // Restaura fonte salva (se disponível)
+        try {
+            var savedFont = localStorage.getItem('clockFont');
+            if (savedFont) {
+                var fontBtn = document.querySelector('[data-font="' + savedFont + '"]');
+                if (fontBtn) {
+                    fontBtn.click();
+                }
+            }
+        } catch (e) {
+            // localStorage não disponível
+        }
 
         // Inicialização
         state.slides = createSlideArray();
