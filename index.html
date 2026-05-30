@@ -105,20 +105,22 @@
         }
         
         #themeToggleContainer {
-            position: absolute;
+            position: fixed;
             top: 16px;
             right: 16px;
             z-index: 100;
             display: -webkit-flex;
             display: flex;
-            gap: 8px;
+            gap: 12px;
+            -webkit-align-items: center;
+            align-items: center;
         }
         
         #menuToggleBtn {
             display: none;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             #menuToggleBtn {
                 display: -webkit-flex;
                 display: flex;
