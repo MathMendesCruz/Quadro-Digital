@@ -104,6 +104,65 @@
             color: #1a1f36;
         }
         
+        #menuToggleBtn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 101;
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: none;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-touch-callout: none;
+        }
+        
+        #menuToggleBtn:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        #menuToggleBtn:active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        body.light-mode #menuToggleBtn {
+            background: transparent;
+            border-color: rgba(26, 31, 54, 0.3);
+            color: #1a1f36;
+        }
+        
+        body.light-mode #menuToggleBtn:hover {
+            border-color: rgba(26, 31, 54, 0.6);
+            background: rgba(26, 31, 54, 0.08);
+        }
+        
+        body.light-mode #menuToggleBtn:active {
+            background: rgba(26, 31, 54, 0.15);
+            border-color: rgba(26, 31, 54, 0.8);
+        }
+        
+        @media (max-width: 1024px) {
+            #menuToggleBtn {
+                display: -webkit-flex;
+                display: flex;
+            }
+        }
+        
         #themeToggleContainer {
             position: fixed;
             top: 16px;
@@ -114,17 +173,6 @@
             gap: 12px;
             -webkit-align-items: center;
             align-items: center;
-        }
-        
-        #menuToggleBtn {
-            display: none;
-        }
-        
-        @media (max-width: 1024px) {
-            #menuToggleBtn {
-                display: -webkit-flex;
-                display: flex;
-            }
         }
         
         .theme-btn {
@@ -212,16 +260,27 @@
         }
         
         .font-selector {
-            position: absolute;
-            top: 16px;
-            left: 16px;
-            z-index: 100;
             display: -webkit-flex;
             display: flex;
             gap: 4px;
             -webkit-flex-wrap: wrap;
             flex-wrap: wrap;
-            max-width: 200px;
+            max-width: 100%;
+            margin-bottom: 12px;
+        }
+        
+        .sidebar .font-selector {
+            position: static;
+            top: auto;
+            left: auto;
+            z-index: auto;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+        }
+        
+        body.light-mode .sidebar .font-selector {
+            border-bottom-color: rgba(26, 31, 54, 0.1);
         }
         
         .font-btn {
@@ -352,27 +411,15 @@
         }
         
         .status-badge {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background: rgba(0, 0, 0, 0.6);
-            color: #ffffff;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-align-items: center;
-            align-items: center;
-            gap: 4px;
+            display: none;
         }
         
         .status-badge.loaded {
-            background: rgba(76, 175, 80, 0.6);
+            display: none;
         }
         
         .status-badge.error {
-            background: rgba(244, 67, 54, 0.6);
+            display: none;
         }
         
         .controls-row {
@@ -751,6 +798,12 @@
                 font-size: 1rem;
             }
             
+            #menuToggleBtn {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+            }
+            
             .size-label {
                 font-size: 0.85rem;
             }
@@ -803,17 +856,10 @@
 <body>
     <div class="main-container">
         <div class="content">
-            <div class="font-selector">
-                <button class="font-btn active" data-font="monospace" title="Monospace">Mono</button>
-                <button class="font-btn" data-font="digital" title="Digital">Digital</button>
-                <button class="font-btn" data-font="modern" title="Modern">Modern</button>
-                <button class="font-btn" data-font="classic" title="Classic">Classic</button>
-                <button class="font-btn" data-font="geometric" title="Geometric">Geo</button>
-            </div>
+            <button id="menuToggleBtn" title="Menu" aria-label="Menu">☰</button>
             
             <div id="themeToggleContainer">
                 <button id="themeToggleBtn" class="theme-btn" title="Alternar tema" aria-label="Alternar tema">🌙</button>
-                <button id="menuToggleBtn" class="theme-btn" title="Menu" aria-label="Menu"></button>
             </div>
             
             <div id="clock">00:00:00</div>
@@ -825,6 +871,14 @@
         </div>
         
         <aside class="sidebar">
+            <div class="font-selector">
+                <button class="font-btn active" data-font="monospace" title="Monospace">Mono</button>
+                <button class="font-btn" data-font="digital" title="Digital">Digital</button>
+                <button class="font-btn" data-font="modern" title="Modern">Modern</button>
+                <button class="font-btn" data-font="classic" title="Classic">Classic</button>
+                <button class="font-btn" data-font="geometric" title="Geometric">Geo</button>
+            </div>
+            
             <div class="controls-row">
                 <button id="prevBtn" class="btn-control" title="Slide anterior" aria-label="Anterior">‹</button>
                 <button id="playPauseBtn" class="btn-control" title="Pausar/Reproduzir" aria-label="Pausar/Reproduzir">⏸</button>
