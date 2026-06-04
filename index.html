@@ -181,6 +181,13 @@
         }
         
         #clock {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: row;
+            flex-direction: row;
+            -webkit-align-items: center;
+            align-items: center;
+            gap: 12px;
             font-size: 4.5rem;
             font-weight: 300;
             letter-spacing: 3px;
@@ -189,6 +196,18 @@
             font-variant-numeric: tabular-nums;
             font-family: 'Monaco', 'Courier New', monospace;
             transition: font-family 0.3s ease;
+        }
+
+        #time {
+            display: inline-block;
+        }
+
+        #temperature {
+            display: inline-block;
+            font-size: 1.6rem;
+            font-weight: 400;
+            opacity: 0.95;
+            white-space: nowrap;
         }
         
         #clock.font-digital {
@@ -736,7 +755,7 @@
                 <button id="themeToggleBtn" class="theme-btn" title="Alternar tema" aria-label="Alternar tema">🌙</button>
             </div>
             
-            <div id="clock">00:00:00</div>
+            <div id="clock"><span id="time">00:00:00</span><span id="temperature" aria-live="polite" title="Temperatura São Paulo Zona Sul">--ºC</span></div>
             
             <div class="slideshow-container">
                 <div id="slideshow"></div>
@@ -857,7 +876,10 @@
             var h = String(now.getHours()).padStart(2, '0');
             var m = String(now.getMinutes()).padStart(2, '0');
             var s = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = h + ':' + m + ':' + s;
+            var timeEl = document.getElementById('time');
+            if (timeEl) {
+                timeEl.textContent = h + ':' + m + ':' + s;
+            }
         }
 
         // Aplica tamanho ao slide
@@ -1118,12 +1140,54 @@
             // localStorage não disponível
         }
 
+        // Busca temperatura (São Paulo - Zona Sul) usando Open-Meteo
+        function fetchTemperature() {
+            try {
+                var xhr = new XMLHttpRequest();
+                var lat = -23.6; // São Paulo Zona Sul (aprox.)
+                var lon = -46.66;
+                var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + encodeURIComponent(lat) + '&longitude=' + encodeURIComponent(lon) + '&current_weather=true&temperature_unit=celsius';
+                xhr.open('GET', url, true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        var tempEl = document.getElementById('temperature');
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            try {
+                                var data = JSON.parse(xhr.responseText);
+                                if (data && data.current_weather && typeof data.current_weather.temperature !== 'undefined') {
+                                    var t = Math.round(data.current_weather.temperature);
+                                    if (tempEl) tempEl.textContent = t + 'ºC';
+                                } else {
+                                    if (tempEl) tempEl.textContent = '--ºC';
+                                }
+                            } catch (e) {
+                                if (tempEl) tempEl.textContent = 'N/A';
+                            }
+                        } else {
+                            if (tempEl) tempEl.textContent = 'N/A';
+                        }
+                    }
+                };
+                xhr.send();
+            } catch (e) {
+                var tmp = document.getElementById('temperature');
+                if (tmp) tmp.textContent = 'N/A';
+            }
+        }
+
         // Inicialização
         state.slides = createSlideArray();
         state.slides = shuffleArray(state.slides);
         
         setInterval(updateClock, 1000);
         updateClock();
+        // Atualiza temperatura a cada 60s
+        try {
+            fetchTemperature();
+            setInterval(fetchTemperature, 60000);
+        } catch (e) {
+            // falha silenciosa
+        }
         setTheme(true);
         showSlide(0);
         updatePlayPauseIcon();
