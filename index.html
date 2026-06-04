@@ -1147,27 +1147,85 @@
             // localStorage não disponível
         }
 
-        // Busca temperatura (nota: GitHub Pages com HTML estático não permite CORS)
-        // Para usar API real, será necessário um backend ou proxy
+        // Cache de temperatura com timestamp
+        var tempCache = {
+            value: null,
+            lastUpdate: 0,
+            cacheExpiry: 300000 // 5 minutos
+        };
+
+        // Busca temperatura de São Paulo usando Open-Meteo (CORS habilitado)
         function fetchTemperature() {
-            // Tenta buscar da API Open-Meteo (funcionará se houver um backend)
-            var lat = -23.6;
-            var lon = -46.66;
-            var apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true&temperature_unit=celsius';
+            if (typeof fetch === 'undefined') return;
             
-            if (typeof fetch !== 'undefined') {
-                fetch(apiUrl)
-                    .then(function(r) { return r.json(); })
-                    .then(function(d) {
-                        if (d && d.current_weather && d.current_weather.temperature) {
-                            var t = Math.round(d.current_weather.temperature);
-                            var tempEl = document.getElementById('temperature');
-                            var iconEl = document.getElementById('weatherIcon');
-                            if (tempEl) tempEl.textContent = t + 'ºC';
-                            if (iconEl) iconEl.textContent = getWeatherIconFromTemp(t);
-                        }
+            // Evita requisições muito frequentes
+            var now = Date.now();
+            if (tempCache.lastUpdate > 0 && (now - tempCache.lastUpdate) < 60000) {
+                return; // Não faz requisição se atualizou há menos de 1 minuto
+            }
+            
+            // Open-Meteo suporta CORS nativamente
+            var lat = -23.5505;
+            var lon = -46.6333;
+            var apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + 
+                         '&current=temperature_2m,weather_code&timezone=America/Sao_Paulo';
+            
+            fetch(apiUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('API error');
+                    return response.json();
+                })
+                .then(function(data) {
+                    if (data && data.current && typeof data.current.temperature_2m !== 'undefined') {
+                        var temp = Math.round(data.current.temperature_2m);
+                        tempCache.value = temp;
+                        tempCache.lastUpdate = now;
+                        updateTemperatureDisplay(temp);
+                    } else {
+                        throw new Error('Invalid data structure');
+                    }
+                })
+                .catch(function(e) {
+                    // Se tem cache válido, usa o valor anterior
+                    if (tempCache.value !== null && (now - tempCache.lastUpdate) < tempCache.cacheExpiry) {
+                        updateTemperatureDisplay(tempCache.value);
+                        return;
+                    }
+                    
+                    // Fallback: tenta wttr.in como alternativa
+                    return fetch('https://wttr.in/?format=j1', {
+                        headers: {'Accept': 'application/json'}
                     })
-                    .catch(function(e) {});
+                        .then(function(response) {
+                            if (!response.ok) throw new Error('API error');
+                            return response.json();
+                        })
+                        .then(function(data) {
+                            if (data && data.current_condition && data.current_condition[0]) {
+                                var tempStr = data.current_condition[0].temp_C;
+                                var temp = parseInt(tempStr, 10);
+                                if (!isNaN(temp)) {
+                                    tempCache.value = temp;
+                                    tempCache.lastUpdate = now;
+                                    updateTemperatureDisplay(temp);
+                                }
+                            }
+                        });
+                })
+                .catch(function(e) {
+                    // Silencia erros finais
+                });
+        }
+
+        // Atualiza display de temperatura
+        function updateTemperatureDisplay(temp) {
+            var tempEl = document.getElementById('temperature');
+            var iconEl = document.getElementById('weatherIcon');
+            if (tempEl) {
+                tempEl.textContent = temp + 'ºC';
+            }
+            if (iconEl) {
+                iconEl.textContent = getWeatherIconFromTemp(temp);
             }
         }
 
