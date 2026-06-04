@@ -762,7 +762,7 @@
                 <button id="themeToggleBtn" class="theme-btn" title="Alternar tema" aria-label="Alternar tema">🌙</button>
             </div>
             
-            <div id="clock"><span id="time">00:00:00</span><span id="temperature" aria-live="polite" title="Temperatura São Paulo Zona Sul">--ºC</span><span id="weatherIcon" title="Condição climática"></span></div>
+            <div id="clock"><span id="time">00:00:00</span><span id="temperature" aria-live="polite" title="Temperatura São Paulo Zona Sul">22ºC</span><span id="weatherIcon" title="Condição climática">🌤️</span></div>
             
             <div class="slideshow-container">
                 <div id="slideshow"></div>
@@ -1147,63 +1147,37 @@
             // localStorage não disponível
         }
 
-        // Mapeamento de códigos WMO para ícones emoji
-        function getWeatherIcon(code) {
-            var c = parseInt(code, 10);
-            if (c === 0) return '☀️'; // Clear
-            if (c === 1 || c === 2) return '🌤️'; // Mostly clear / Partly cloudy
-            if (c === 3) return '☁️'; // Overcast
-            if (c === 45 || c === 48) return '🌫️'; // Fog
-            if (c >= 51 && c <= 67) return '🌧️'; // Drizzle
-            if (c >= 71 && c <= 77) return '❄️'; // Snow
-            if (c === 80 || c === 81 || c === 82) return '🌧️'; // Rain showers
-            if (c === 85 || c === 86) return '⛈️'; // Heavy snow/rain showers
-            if (c >= 95 && c <= 99) return '⛈️'; // Thunderstorm
-            return '🌡️'; // Default
+        // Busca temperatura (nota: GitHub Pages com HTML estático não permite CORS)
+        // Para usar API real, será necessário um backend ou proxy
+        function fetchTemperature() {
+            // Tenta buscar da API Open-Meteo (funcionará se houver um backend)
+            var lat = -23.6;
+            var lon = -46.66;
+            var apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true&temperature_unit=celsius';
+            
+            if (typeof fetch !== 'undefined') {
+                fetch(apiUrl)
+                    .then(function(r) { return r.json(); })
+                    .then(function(d) {
+                        if (d && d.current_weather && d.current_weather.temperature) {
+                            var t = Math.round(d.current_weather.temperature);
+                            var tempEl = document.getElementById('temperature');
+                            var iconEl = document.getElementById('weatherIcon');
+                            if (tempEl) tempEl.textContent = t + 'ºC';
+                            if (iconEl) iconEl.textContent = getWeatherIconFromTemp(t);
+                        }
+                    })
+                    .catch(function(e) {});
+            }
         }
 
-        // Busca temperatura (São Paulo - Zona Sul) usando Open-Meteo
-        function fetchTemperature() {
-            try {
-                var xhr = new XMLHttpRequest();
-                var lat = -23.6; // São Paulo Zona Sul (aprox.)
-                var lon = -46.66;
-                var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + encodeURIComponent(lat) + '&longitude=' + encodeURIComponent(lon) + '&current_weather=true&temperature_unit=celsius';
-                xhr.open('GET', url, true);
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4) {
-                        var tempEl = document.getElementById('temperature');
-                        var iconEl = document.getElementById('weatherIcon');
-                        if (xhr.status >= 200 && xhr.status < 300) {
-                            try {
-                                var data = JSON.parse(xhr.responseText);
-                                if (data && data.current_weather && typeof data.current_weather.temperature !== 'undefined') {
-                                    var t = Math.round(data.current_weather.temperature);
-                                    var wcode = data.current_weather.weather_code;
-                                    var icon = getWeatherIcon(wcode);
-                                    if (tempEl) tempEl.textContent = t + 'ºC';
-                                    if (iconEl) iconEl.textContent = icon;
-                                } else {
-                                    if (tempEl) tempEl.textContent = '--ºC';
-                                    if (iconEl) iconEl.textContent = '';
-                                }
-                            } catch (e) {
-                                if (tempEl) tempEl.textContent = 'N/A';
-                                if (iconEl) iconEl.textContent = '';
-                            }
-                        } else {
-                            if (tempEl) tempEl.textContent = 'N/A';
-                            if (iconEl) iconEl.textContent = '';
-                        }
-                    }
-                };
-                xhr.send();
-            } catch (e) {
-                var tmp = document.getElementById('temperature');
-                var ico = document.getElementById('weatherIcon');
-                if (tmp) tmp.textContent = 'N/A';
-                if (ico) ico.textContent = '';
-            }
+        // Simples mapeamento baseado em temperatura
+        function getWeatherIconFromTemp(temp) {
+            if (temp >= 26) return '☀️'; // Muito quente
+            if (temp >= 22) return '🌤️'; // Quente/Agradável
+            if (temp >= 16) return '☁️'; // Morno
+            if (temp >= 10) return '🌫️'; // Fresco
+            return '❄️'; // Frio
         }
 
         // Inicialização
@@ -1212,13 +1186,11 @@
         
         setInterval(updateClock, 1000);
         updateClock();
-        // Atualiza temperatura a cada 60s
+        // Atualiza temperatura a cada 60s (tenta buscar da API)
         try {
             fetchTemperature();
             setInterval(fetchTemperature, 60000);
-        } catch (e) {
-            // falha silenciosa
-        }
+        } catch (e) {}
         setTheme(true);
         showSlide(0);
         updatePlayPauseIcon();
