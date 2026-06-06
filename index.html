@@ -950,6 +950,10 @@
                     state.loadedImages[slide.id] = false;
                     img.style.opacity = '0.2';
                     updateStatusBadge();
+                    // Pula para próximo slide se não carregar
+                    setTimeout(function() {
+                        showSlide(state.current + 1);
+                    }, 1000);
                 };
                 
                 slideshow.appendChild(img);
@@ -986,6 +990,10 @@
                 
                 video.onerror = function() {
                     video.style.opacity = '0.2';
+                    // Pula para próximo slide se não carregar
+                    setTimeout(function() {
+                        showSlide(state.current + 1);
+                    }, 1000);
                 };
                 
                 slideshow.appendChild(video);
@@ -1051,8 +1059,25 @@
         sizeRange.oninput = function() {
             state.sizePx = parseInt(this.value, 10);
             sizeRangeLabel.textContent = state.sizePx + 'px';
+            // Salva tamanho em localStorage
+            try {
+                localStorage.setItem('slideshowSize', state.sizePx);
+            } catch (e) {}
             showSlide(state.current);
         };
+        
+        // Restaura tamanho salvo
+        try {
+            var savedSize = localStorage.getItem('slideshowSize');
+            if (savedSize) {
+                var sizeValue = parseInt(savedSize, 10);
+                if (!isNaN(sizeValue)) {
+                    sizeRange.value = sizeValue;
+                    state.sizePx = sizeValue;
+                    sizeRangeLabel.textContent = sizeValue + 'px';
+                }
+            }
+        } catch (e) {}
 
         // Botões de velocidade
         var speedBtns = {
@@ -1072,10 +1097,24 @@
             };
         });
 
-        // Tema claro/escuro
+        // Tema claro/escuro com suporte automático por horário
         var themeBtn = document.getElementById('themeToggleBtn');
-        function setTheme(dark) {
+        var autoTheme = true; // Começa com tema automático
+        
+        // Determina tema baseado na hora (18h-05h59 = escuro, resto = claro)
+        function getAutoTheme() {
+            var now = new Date();
+            var hour = now.getHours();
+            // Escuro de 18:00 até 05:59, claro para o resto
+            return hour >= 18 || hour < 6;
+        }
+        
+        function setTheme(dark, isAuto) {
             state.darkMode = dark;
+            // Desativa tema automático apenas se não for uma mudança automática
+            if (!isAuto) {
+                autoTheme = false;
+            }
             if (dark) {
                 document.body.classList.remove('light-mode');
                 themeBtn.textContent = '🌙';
@@ -1086,9 +1125,24 @@
                 themeBtn.title = 'Alternar para modo escuro';
             }
         }
+        
         themeBtn.onclick = function() {
-            setTheme(!state.darkMode);
+            setTheme(!state.darkMode, false);
         };
+        
+        // Atualiza tema automático a cada minuto
+        function updateAutoTheme() {
+            if (autoTheme) {
+                var isDarkTime = getAutoTheme();
+                // Só muda se for diferente
+                if (isDarkTime !== state.darkMode) {
+                    setTheme(isDarkTime, true); // true = mudança automática
+                }
+            }
+        }
+        
+        // Verifica tema automático a cada minuto
+        setInterval(updateAutoTheme, 60000);
 
         // Toggle da Sidebar
         var menuBtn = document.getElementById('menuToggleBtn');
@@ -1249,7 +1303,8 @@
             fetchTemperature();
             setInterval(fetchTemperature, 60000);
         } catch (e) {}
-        setTheme(true);
+        // Define tema automático baseado na hora
+        updateAutoTheme();
         showSlide(0);
         updatePlayPauseIcon();
     </script>
